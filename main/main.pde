@@ -1,7 +1,10 @@
 //This is the main sketch
+//I added the openscreen class - you need to uncomment it to see it
 
 
 import ddf.minim.*;
+import processing.video.*;
+
 
 Minim minim;
 //Creating arrays of instruments
@@ -22,6 +25,9 @@ PImage pgarbage;
 PImage ptubes;
 PImage pbottles;
 PImage logo;
+PImage choose1;
+PImage choose2;
+PImage choose3;
 
 //Creating Objects of Instruments
 PlayFree water;
@@ -29,15 +35,23 @@ PlayFree garbage;
 PlayFree bottles;
 PlayFree tubes;
 
-//boolean check;
+//creating objects of titles for open screen
+OpenScreen title1;
+OpenScreen title2;
+OpenScreen title3;
 
 
-
+Movie intro;
+Movie about;
 
 void setup () {
   fullScreen();
   //size(1000, 1000);
   //background(255);
+  
+  
+  intro = new Movie(this, "intro.mp4");//intro movie
+  about = new Movie(this, "aboutMayumana.mp4");//About mayumana movie
 
   minim = new Minim(this);
 
@@ -77,20 +91,31 @@ void setup () {
   pbottles  = loadImage("bottles.jpg");
   ptubes  = loadImage("tubes.jpg");
   logo = loadImage("logo.jpg");
+  choose1 = loadImage("choose1.jpg");
+  choose2 = loadImage("choose2.jpg");
+  choose3 = loadImage("choose3.jpg");
 
-  //Creating new objects - (X position, Y Position, Width, Height, Image name, Samples array name, background image)
+  //Creating new objects for instruments - (X position, Y Position, Width, Height, Image name, Samples array name, background image)
   water = new PlayFree (width*0.20, height*0.20, width*0.3, height*0.25, pwater, swater);
   garbage = new PlayFree (width*0.20, height*0.80, width*0.3, height*0.25, pgarbage, sgarbage);
   bottles  = new PlayFree (width*0.80, height*0.20, width*0.3, height*0.25, pbottles, sbottles);
   tubes = new PlayFree (width*0.80, height*0.80, width*0.3, height*0.25, ptubes, stubes);
+  
+  //Creating new objects for open screen - (X position, Y Position, Width, Height, Image name, video intro, video about)
+  
+  title1 = new OpenScreen (width*0.4,height*0.8,width*0.25, height*0.1, choose1, about);
+  title2 = new OpenScreen (width*0.1,height*0.8,width*0.25, height*0.1, choose2, about);
+  title3 = new OpenScreen (width*0.7,height*0.8,width*0.25, height*0.1, choose3, about);
 }
 
 void draw () {
+  
+  //openscreen();
 
-  screen1();
+  //playfree();
 }
 //Function that calls all the methods for the playFree screen
-void screen1() {
+void playfree() {
   background(255);
   imageMode(CENTER);
   image(logo, width/2, height/2);
@@ -103,3 +128,27 @@ void screen1() {
   tubes.display();
   tubes.mouseOver();
 }
+//Function that calls all the methods for openscreen
+void openscreen(){
+    intro.loop();
+    image(intro,0,0,width, height);
+    title1.display();
+    title2.display();
+    title3.display();
+    title1.mouseOver();
+    title2.mouseOver();
+    title3.mouseOver();
+}
+
+void movieEvent(Movie m) {
+  m.read();
+}
+
+void keyPressed(){
+  if(key == '1'){
+    openscreen();
+  }
+  else if (key == '2'){
+    playfree();
+  }
+} 
