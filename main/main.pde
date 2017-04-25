@@ -1,5 +1,9 @@
 //This is the main sketch
 //I added the openscreen class - you need to uncomment it to see it
+//same thinh with the Playfree screen - uncomment to call it.
+//*** im still strugeling with the capacitive sensor, the amount of time
+//*** im spending on force me to create less games screens (the guitar hero one). 
+//*** hopefully after the session today with Kelly i will figure it out.
 
 
 import ddf.minim.*;
