@@ -8,6 +8,12 @@ class PlayFree {
   float wid;// Width
   float heig;// height
   PImage img;// Image
+  boolean playing0 = false;
+  boolean playing1 = false;
+  boolean playing2 = false;
+  boolean playing3 = false;
+  boolean playing4 = false;
+  int startTime = 0;
   
   color c;// color (for the stroke)
   int str;// (stroke weight)
@@ -42,9 +48,21 @@ class PlayFree {
       str = 10;//increasing stroke weight
       c = color (255, 0, 0);//changing stroke to red
 
+      
       if (keyPressed == true) {
+        
         if (key == 'q' || key == 'Q') {
-          sounds[0].trigger();
+          if (millis() > startTime + sounds[0].length()) {
+            playing0 = false;
+          }
+          if (!playing0) { 
+            sounds[0].trigger();
+            startTime = millis();
+            playing0 = true;
+          }
+          
+          //sounds[0].trigger();
+          //playing = true;
         } else if (key == 'w' || key == 'W') {
           sounds[1].trigger();
         } else if (key == 'e' || key == 'E') {

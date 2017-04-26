@@ -10,6 +10,7 @@ class OpenScreen {
   Movie about;
   color c;// color (for the stroke)
   int str;// (stroke weight)
+  int choose;
 
   OpenScreen(float x, float y, float w, float h, PImage title, Movie ab) {
     posx = x;
@@ -18,6 +19,7 @@ class OpenScreen {
     heig = h;
     img = title; 
     about = ab;
+    //choose = ch;
   }
   
   
@@ -30,16 +32,18 @@ class OpenScreen {
     image(img, posx, posy, wid, heig);
   }
   // check if the mouse is over a title
-  void mouseOver() { 
+  boolean mouseOver() { 
     //If the mouse is over a title
     if (mouseX > posx && mouseX < posx+wid && mouseY > posy && mouseY < posy +heig) {
       str = 10;//increasing stroke weight
       c = color (255, 0, 0);//changing stroke to red
-    }
+      return true;  
+  }
     //if mouse not over a titlet
     else {
       str = 5;//deacrising stroke weight
       c = color (100, 100, 100);//changing stroke color to grey
+      return false;
     }
   }
 }

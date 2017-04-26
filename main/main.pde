@@ -8,7 +8,9 @@
 
 import ddf.minim.*;
 import processing.video.*;
+import processing.serial.*;
 
+Serial serial;
 
 Minim minim;
 //Creating arrays of instruments
@@ -44,16 +46,24 @@ OpenScreen title1;
 OpenScreen title2;
 OpenScreen title3;
 
+int titleChoose1;
+int titleChoose2;
+int titleChoose3;
+int button;
 
 Movie intro;
 Movie about;
 
+
 void setup () {
-  fullScreen();
-  //size(1000, 1000);
+  //fullScreen();
+  size(1000, 1000);
   //background(255);
-  
-  
+
+  titleChoose1 = 1;
+  titleChoose1 = 2;
+  titleChoose1 = 3;
+
   intro = new Movie(this, "intro.mp4");//intro movie
   about = new Movie(this, "aboutMayumana.mp4");//About mayumana movie
 
@@ -104,17 +114,20 @@ void setup () {
   garbage = new PlayFree (width*0.20, height*0.80, width*0.3, height*0.25, pgarbage, sgarbage);
   bottles  = new PlayFree (width*0.80, height*0.20, width*0.3, height*0.25, pbottles, sbottles);
   tubes = new PlayFree (width*0.80, height*0.80, width*0.3, height*0.25, ptubes, stubes);
-  
+
   //Creating new objects for open screen - (X position, Y Position, Width, Height, Image name, video intro, video about)
-  
-  title1 = new OpenScreen (width*0.4,height*0.8,width*0.25, height*0.1, choose1, about);
-  title2 = new OpenScreen (width*0.1,height*0.8,width*0.25, height*0.1, choose2, about);
-  title3 = new OpenScreen (width*0.7,height*0.8,width*0.25, height*0.1, choose3, about);
+
+  title1 = new OpenScreen (width*0.4, height*0.8, width*0.25, height*0.1, choose1, about);
+  title2 = new OpenScreen (width*0.1, height*0.8, width*0.25, height*0.1, choose2, about);
+  title3 = new OpenScreen (width*0.7, height*0.8, width*0.25, height*0.1, choose3, about);
+
+  button = 4;
 }
 
 void draw () {
-  
-  //openscreen();
+
+  openscreen();
+  println(button);
 
   //playfree();
 }
@@ -133,26 +146,56 @@ void playfree() {
   tubes.mouseOver();
 }
 //Function that calls all the methods for openscreen
-void openscreen(){
-    intro.loop();
-    image(intro,0,0,width, height);
-    title1.display();
-    title2.display();
-    title3.display();
-    title1.mouseOver();
-    title2.mouseOver();
-    title3.mouseOver();
+void openscreen() {
+  intro.loop();
+  image(intro, 0, 0, width, height);
+  title1.display();
+  title2.display();
+  title3.display();
+
+  if (title1.mouseOver() == true) {
+    button = 1;
+  }  
+  if (title2.mouseOver() == true);
+  {
+    button = 2;
+  }  
+  if (title3.mouseOver() == true);
+  {
+    button = 3;
+  }
+}
+
+void aboutMayumana() {
+  about.play();
+  image(about, 0, 0, width, height);
+}
+
+void mousePressed() {
+  
+  switch (button) {
+  case 1:
+    aboutMayumana();
+    break;
+
+  case 2:
+    playfree();
+    break;
+
+  case 3:
+    break;
+
+  case 4:
+    openscreen();
+    break;
+  }
 }
 
 void movieEvent(Movie m) {
   m.read();
 }
 
-void keyPressed(){
-  if(key == '1'){
-    openscreen();
-  }
-  else if (key == '2'){
-    playfree();
-  }
-} 
+
+void keyReleased() {
+  bottles.playing0 = false;
+}
