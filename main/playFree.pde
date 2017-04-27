@@ -1,6 +1,4 @@
-// I got some problems in this class:
-// 1) after i hover an instrument, it leaves some red on the stroke
-// 2) when im triggering sound they dont sound good, like i trigger few toghther (didnt happen in my sound tryout project)
+//I added a playback fuction that the user can play with, by pressing 'p' - it is still buggy
 class PlayFree {
 
   float posx;// X position
@@ -13,14 +11,20 @@ class PlayFree {
   boolean playing2 = false;
   boolean playing3 = false;
   boolean playing4 = false;
+  boolean over = false;
+  boolean playback = false;
   int startTime = 0;
+  String clickpb;
+  PFont f;
   
+
   color c;// color (for the stroke)
   int str;// (stroke weight)
   AudioSample[] sounds;// Audio samples Array
+  AudioPlayer pb;//playback file
 
   //Setting up the constructor
-  PlayFree(float x, float y, float w, float h, PImage inst, AudioSample[] s) {
+  PlayFree(float x, float y, float w, float h, PImage inst, AudioSample[] s, AudioPlayer p) {
 
     posx = x;
     posy = y;
@@ -28,12 +32,25 @@ class PlayFree {
     heig = h;
     img = inst;
     sounds = s;
-    
+    pb = p;
+    clickpb = "PRESS 'P' TO TURN THE PLAYBACK ON OR OFF";
+    f = createFont ("Knockout-HTF66-FullFlyweight.otf",64);
   }
 
   //Display a rect with an image of the instrument inside
   void display () {
+    //Rect with instructions about the playback
     rectMode(CENTER);
+    fill(0);
+    stroke(100);
+    strokeWeight(3);
+    rect(width/2,height*0.2,width*0.2,height*0.05);
+    fill(220);
+    textFont(f);
+    textSize(25);
+    textAlign(CENTER, CENTER);
+    text(clickpb,width/2,height*0.2);
+    //rect with the different instruments
     fill(0);
     strokeWeight(str);
     stroke(c);
@@ -47,11 +64,14 @@ class PlayFree {
     if (mouseX > posx-(wid/2) && mouseX < posx+(wid/2) && mouseY > posy -(heig/2) && mouseY < posy +(heig/2)) {
       str = 10;//increasing stroke weight
       c = color (255, 0, 0);//changing stroke to red
+      //use this boolean to know which playback file to play
+      over = true;
 
-      
+
       if (keyPressed == true) {
-        
+
         if (key == 'q' || key == 'Q') {
+          //making sure that it wouldnt play the same sample 60 times a second.
           if (millis() > startTime + sounds[0].length()) {
             playing0 = false;
           }
@@ -60,25 +80,77 @@ class PlayFree {
             startTime = millis();
             playing0 = true;
           }
-          
-          //sounds[0].trigger();
-          //playing = true;
-        } else if (key == 'w' || key == 'W') {
-          sounds[1].trigger();
-        } else if (key == 'e' || key == 'E') {
-          sounds[2].trigger();
-        } else if (key == 'r' || key == 'R') {
-          sounds[3].trigger();
-        } else if (key == 't' || key == 'T') {
-          sounds[4].trigger();
+        }
+
+        if (key == 'w' || key == 'W') {
+          if (millis() > startTime + sounds[1].length()) {
+            playing1 = false;
+          }
+          if (!playing1) { 
+            sounds[1].trigger();
+            startTime = millis();
+            playing1 = true;
+          }
+        }
+
+        if (key == 'e' || key == 'E') {
+          if (millis() > startTime + sounds[2].length()) {
+            playing2 = false;
+          }
+          if (!playing2) { 
+            sounds[2].trigger();
+            startTime = millis();
+            playing2 = true;
+          }
+        }
+
+        if (key == 'r' || key == 'R') {
+          if (millis() > startTime + sounds[3].length()) {
+            playing3 = false;
+          }
+          if (!playing3) { 
+            sounds[3].trigger();
+            startTime = millis();
+            playing0 = true;
+          }
+        }
+
+        if (key == 't' || key == 'T') {
+          if (millis() > startTime + sounds[4].length()) {
+            playing0 = false;
+          }
+          if (!playing4) { 
+            sounds[4].trigger();
+            startTime = millis();
+            playing4 = true;
+          }
         }
       }
     }
-  
+
     //if mouse not on instrument
     else {
       str = 5;//deacrising stroke weight
       c = color (100, 100, 100);//changing stroke color to grey
+      over = false;
     }
   }
+void playback(){
+  
+  if(keyPressed == true && over == true){
+    if (key == 'p' || key == 'P'){
+      playback = !playback;
+    }
+  }
+  
+  if (playback == true){
+    if (!pb.isPlaying()){
+      pb.play();
+    }
+  }
+  else if (playback == false){
+    pb.pause();
+    pb.rewind();
+  }
+} 
 }

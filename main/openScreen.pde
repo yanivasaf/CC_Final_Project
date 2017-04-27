@@ -7,18 +7,17 @@ class OpenScreen {
   float wid;// Width
   float heig;// height
   PImage img;// Image
-  Movie about;
   color c;// color (for the stroke)
   int str;// (stroke weight)
   int choose;
 
-  OpenScreen(float x, float y, float w, float h, PImage title, Movie ab) {
+  OpenScreen(float x, float y, float w, float h, PImage title) {
     posx = x;
     posy = y;
     wid = w;
     heig = h;
     img = title; 
-    about = ab;
+    
     //choose = ch;
   }
   
