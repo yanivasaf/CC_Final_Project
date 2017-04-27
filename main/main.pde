@@ -1,9 +1,10 @@
 //This is the main sketch
-//I added the openscreen class - you need to uncomment it to see it
-//same thinh with the Playfree screen - uncomment to call it.
-//*** im still strugeling with the capacitive sensor, the amount of time
-//*** im spending on force me to create less games screens (the guitar hero one). 
-//*** hopefully after the session today with Kelly i will figure it out.
+// click the mouse to load the opening screen
+//***Click the mouse to start the project***
+
+//bugs:
+//when going from the instrument page back to the opening screen - it change the scale and position
+//of the background
 
 
 import ddf.minim.*;
@@ -140,9 +141,11 @@ void setup () {
   title1 = new OpenScreen (width*0.1, height*0.8, width*0.25, height*0.1, choose2);
   title2 = new OpenScreen (width*0.4, height*0.8, width*0.25, height*0.1, choose1);
   title3 = new OpenScreen (width*0.7, height*0.8, width*0.25, height*0.1, choose3);
-
+  
+  //used to choose screens
   button = 0;
 
+  //used for state machine
   open =false;
   play= false;
   who= false;
@@ -164,17 +167,10 @@ void draw () {
   {
     //simon();
 
-
-    // openscreen();
-
-    println(button);
-
-    //playfree();
   }
 }
   //Function that calls all the methods for the playFree screen
   void playfree() {
-    intro.stop();
     background(255);
     imageMode(CENTER);
     image(logo, width/2, height/2);
@@ -195,14 +191,16 @@ void draw () {
   }
   //Function that calls all the methods for openscreen
   void openscreen() {
+    //movie at the background
     image(intro, 0, 0, width, height);
     intro.loop();
     
-
+    //displaying the titles
     title1.display();
     title2.display();
     title3.display();
-
+    
+    //checking if the mouse is over a title
     if (title1.mouseOver() == true) {
       button = 1;
     }  
@@ -214,14 +212,10 @@ void draw () {
     {
       button = 3;
     }
-    if (open==false){
-      intro.stop();
-    }
-    
   }
-
+  
+  //load the "about Mayumana" video
   void aboutMayumana() {
-    
     about.play();
     image(about, 0, 0, width, height);
     back2menu();
@@ -231,7 +225,8 @@ void draw () {
 
 
   void mousePressed() {
-
+    
+    //when the mouse is pressed it pass the button var to the switch
     switch (button) {
     case 0:
       background(0);
@@ -240,6 +235,10 @@ void draw () {
       who = false;
       simon = false;
       about.stop();
+      bottles.playback = false;
+      garbage.playback = false;
+      water.playback = false;
+      tubes.playback = false;
       break;
 
     case 1:
@@ -270,7 +269,8 @@ void draw () {
   void movieEvent(Movie m) {
     m.read();
   }
-
+  
+//creating a back to menu button
 void back2menu(){
   image (menu, width/2,height*0.9, width*0.05,width*0.05);
   if (mouseX > width/2 && mouseX< width/2+100 && mouseY >height-100 && mouseY<height){
