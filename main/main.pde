@@ -1,6 +1,6 @@
 //This is the main sketch
-// click the mouse to load the opening screen
 //***Click the mouse to start the project***
+
 
 //bugs:
 //when going from the instrument page back to the opening screen - it change the scale and position
@@ -235,10 +235,10 @@ void draw () {
       who = false;
       simon = false;
       about.stop();
-      bottles.playback = false;
-      garbage.playback = false;
-      water.playback = false;
-      tubes.playback = false;
+      bottles.pb.pause();
+      garbage.pb.pause();
+      water.pb.pause();
+      tubes.pb.pause();
       break;
 
     case 1:

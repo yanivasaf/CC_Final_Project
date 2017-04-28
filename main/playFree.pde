@@ -1,4 +1,4 @@
-//I added a playback fuction that the user can play with, by pressing 'p' - it is still buggy
+//I added a playback fuction that the user can play with, by pressing 'p' to play and 's' to stop 
 class PlayFree {
 
   float posx;// X position
@@ -12,11 +12,12 @@ class PlayFree {
   boolean playing3 = false;
   boolean playing4 = false;
   boolean over = false;
-  boolean playback = false;
+  boolean isplaying = false;
   int startTime = 0;
   String clickpb;
+  String clickpb2;
   PFont f;
-  
+
 
   color c;// color (for the stroke)
   int str;// (stroke weight)
@@ -33,8 +34,9 @@ class PlayFree {
     img = inst;
     sounds = s;
     pb = p;
-    clickpb = "PRESS 'P' TO TURN THE PLAYBACK ON OR OFF";
-    f = createFont ("Knockout-HTF66-FullFlyweight.otf",64);
+    clickpb = "PRESS 'P' TO TURN THE PLAYBACK ON";
+    clickpb2 = "PRESS 'S' TO TURN THE PLAYBACK OFF";
+    f = createFont ("Knockout-HTF66-FullFlyweight.otf", 64);
   }
 
   //Display a rect with an image of the instrument inside
@@ -44,12 +46,13 @@ class PlayFree {
     fill(0);
     stroke(100);
     strokeWeight(3);
-    rect(width/2,height*0.2,width*0.2,height*0.05);
+    rect(width/2, height*0.2, width*0.2, height*0.1);
     fill(220);
     textFont(f);
     textSize(25);
     textAlign(CENTER, CENTER);
-    text(clickpb,width/2,height*0.2);
+    text(clickpb, width/2, height*0.18);
+    text(clickpb2, width/2, height*0.18+25);
     //rect with the different instruments
     fill(0);
     strokeWeight(str);
@@ -135,22 +138,15 @@ class PlayFree {
       over = false;
     }
   }
-void playback(){
-  
-  if(keyPressed == true && over == true){
-    if (key == 'p' || key == 'P'){
-      playback = !playback;
+  void playback() {
+
+    if (keyPressed == true && over == true) {
+      if (key == 'p' || key == 'P') {
+        pb.play();
+      } else if (key == 's' || key == 'S') {
+        pb.pause();
+        pb.rewind();
+      }
     }
   }
-  
-  if (playback == true){
-    if (!pb.isPlaying()){
-      pb.play();
-    }
-  }
-  else if (playback == false){
-    pb.pause();
-    pb.rewind();
-  }
-} 
 }
