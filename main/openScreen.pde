@@ -17,26 +17,27 @@ class OpenScreen {
     wid = w;
     heig = h;
     img = title; 
-    
-    //choose = ch;
+   
   }
-  
   
   //Display a rect with a titleinside
   void display () {
     fill(0);
     strokeWeight(str);
     stroke(c);
+    rectMode(CENTER);
     rect(posx, posy, wid, heig);
+    imageMode(CENTER);
     image(img, posx, posy, wid, heig);
   }
+  
   // check if the mouse is over a title
   boolean mouseOver() { 
     //If the mouse is over a title
-    if (mouseX > posx && mouseX < posx+wid && mouseY > posy && mouseY < posy +heig) {
+    if (mouseX > posx-wid/2 && mouseX < posx+wid/2 && mouseY > posy-heig/2 && mouseY < posy +heig/2) {
       str = 10;//increasing stroke weight
       c = color (255, 0, 0);//changing stroke to red
-      return true;  
+      return true; // 
   }
     //if mouse not over a titlet
     else {
